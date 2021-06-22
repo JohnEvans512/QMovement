@@ -62,7 +62,9 @@ public class QMovement : MonoBehaviour
 		surface_normal = new Vector3(0, 1.0f, 0);
 		move_input = new Vector3(0, 0, 0);
 		camera_offset = new Vector3(0, CAMERA_OFFSET, 0);
+		#if USE_CROUCH
 		center_offset = new Vector3(0, 0, 0);
+		#endif
 		if (!Application.isEditor)
 		{
 			Cursor.visible = false;
