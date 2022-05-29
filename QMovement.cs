@@ -1,4 +1,4 @@
-﻿//#define USE_CROUCH
+//#define USE_CROUCH
 #define MOUSE_SMOOTHING
 using System.Collections;
 using System.Collections.Generic;
@@ -95,7 +95,7 @@ public class QMovement : MonoBehaviour
 			#else
 			move_speed = move_direction.magnitude * moveSpeed;
 			#endif
-			dot = Vector3.Dot(move_vector, move_direction);
+			dot = move_vector.x * move_direction.x + move_vector.y * move_direction.y + move_vector.z * move_direction.z;
 			speed = (float)System.Math.Sqrt(move_vector.x * move_vector.x + move_vector.z * move_vector.z);
 			speed_mul = speed - (speed < DECC_SPEED ? DECC_SPEED : speed) * FRICTION * frame_time;
 			if(speed_mul < 0) speed_mul = 0;
@@ -119,7 +119,7 @@ public class QMovement : MonoBehaviour
 		{
 			move_direction.Normalize();
 			move_speed = move_direction.magnitude * moveSpeed;
-			dot = Vector3.Dot(move_vector, move_direction);
+			dot = move_vector.x * move_direction.x + move_vector.y * move_direction.y + move_vector.z * move_direction.z;
 			vel_add = move_speed - dot;
 			vel_mul = ACC_SPEED_AIR * frame_time * move_speed;
 			if (vel_mul > vel_add) vel_mul = vel_add;
@@ -170,8 +170,8 @@ public class QMovement : MonoBehaviour
 		}
 	}
 
-	Vector3 ProjectOnPlane (Vector3 vector, Vector3 normal) // Faster and unsafe version of standard function, surface normal is never zero anyway.
+	Vector3 ProjectOnPlane (Vector3 vector, Vector3 normal)
 	{
-		return vector - normal * ((vector.x * normal.x + vector.y * normal.y + vector.z * normal.z) / (normal.x * normal.x + normal.y * normal.y + normal.z * normal.z));
+		return vector - normal * (vector.x * normal.x + vector.y * normal.y + vector.z * normal.z);
 	}
 }
